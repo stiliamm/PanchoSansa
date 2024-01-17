@@ -12,7 +12,6 @@ class SpaceRocks(pygame.sprite.Sprite):
         self.rect.x = random.randint(0, SCREEN_WIDTH - self.rect.width)
         self.rect.y = random.randint(-self.rect.height, -50)
         self.speedy = 5
-        self.health = 50
 
     def update(self):
         self.rect.y += self.speedy
