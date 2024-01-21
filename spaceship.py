@@ -4,9 +4,9 @@ from bullets import Bullets
 
 
 class Spaceship(pygame.sprite.Sprite):
-    def __init__(self, game, position: tuple):
+    def __init__(self, level, position: tuple):
         super().__init__()
-        self.game = game
+        self.level = level
         self.image = SPACESHIP_IMG
         self.image = pygame.transform.rotate(
             pygame.transform.scale(self.image, (50, 50)), 180)
@@ -29,8 +29,8 @@ class Spaceship(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE] and time_now - self.last_shot > cooldown:
-            bullet = Bullets(self.game, self.rect.centerx, self.rect.top)
-            self.game.bullet_group.add(bullet)
+            bullet = Bullets(self.level, self.rect.centerx, self.rect.top)
+            self.level.bullet_group.add(bullet)
             BULLET_SOUND.play()
             self.last_shot = time_now
 
@@ -42,9 +42,9 @@ class Spaceship(pygame.sprite.Sprite):
 
         health_perc = max(0, self.health / 100.0)
         green_width = int(bar_width * health_perc)
-        pygame.draw.rect(self.game.screen, RED,
+        pygame.draw.rect(self.level.game.screen, RED,
                          (bar_x, bar_y, bar_width, bar_height))
-        pygame.draw.rect(self.game.screen, GREEN,
+        pygame.draw.rect(self.level.game.screen, GREEN,
                          (bar_x, bar_y, green_width, bar_height))
 
     def update(self):

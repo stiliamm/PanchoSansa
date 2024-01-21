@@ -6,9 +6,9 @@ from spaceship import Spaceship
 
 
 class Aliens(Spaceship):
-    def __init__(self, game, position: tuple):
-        super().__init__(game, position)
-        self.game = game
+    def __init__(self, level, position: tuple):
+        super().__init__(level, position)
+        self.level = level
         self.image = ALIEN_IMAGE
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, SCREEN_WIDTH)
@@ -30,8 +30,8 @@ class Aliens(Spaceship):
 
         if time_now - self.last_shot > ALIEN_COOLDOWN:
             alien_bullet = EnemyBullets(
-                self.game, self.rect.centerx, self.rect.bottom)
-            self.game.enemy_bullets_group.add(alien_bullet)
+                self.level, self.rect.centerx, self.rect.bottom)
+            self.level.enemy_bullets_group.add(alien_bullet)
             pygame.mixer.Sound.set_volume(FIRE_SOUND, 0.05)
             FIRE_SOUND.play()
             self.last_shot = time_now

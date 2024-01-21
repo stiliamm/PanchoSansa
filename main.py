@@ -4,6 +4,7 @@ from settings import *
 from spaceship import Spaceship
 from aliens import Aliens
 from rocks import SpaceRocks
+from level import Level
 
 
 class Game:
@@ -19,18 +20,7 @@ class Game:
         self._new_game()
 
     def _new_game(self):
-        self.player_group = pygame.sprite.GroupSingle()
-        self.bullet_group = pygame.sprite.Group()
-        self.alien_group = pygame.sprite.GroupSingle()
-        self.spacerock_group = pygame.sprite.Group()
-        self.enemy_bullets_group = pygame.sprite.Group()
-        self.player = Spaceship(self, PLAYER_POSITION)
-        self.player_group.add(self.player)
-        self.alien = Aliens(self, ALIEN_POSITION)
-        self.alien_group.add(self.alien)
-        self.spacerock = SpaceRocks()
-        self.spacerock_group.add(self.spacerock)
-        self._game_music()
+        self.level = Level(self)
 
     def _game_music(self):
         self.game_music = GAME_SOUND
@@ -48,15 +38,6 @@ class Game:
         pygame.time.delay(5000)
         self._new_game()
 
-    def endgame(self):
-        if pygame.sprite.spritecollide(self.player, self.spacerock_group, dokill=True) or self.player.health == 0:
-            self.player.kill()
-            self._stop_game_on_event("YOU LOOSE!")
-
-        if self.alien.health == 0:
-            self.alien.kill()
-            self._stop_game_on_event("YOU WIN!")
-
     def main_menu(self):
         self.screen.blit(self.background, (0, 0))
         self.font = MENU_FONT
@@ -68,21 +49,13 @@ class Game:
 
     def update(self):
         self.clock.tick(FPS)
-        self.player_group.update()
-        self.alien_group.update()
-        self.bullet_group.update()
-        self.spacerock_group.update()
-        self.enemy_bullets_group.update()
+        self.level.update()
         pygame.display.set_caption('Panchosansa')
         pygame.display.flip()
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
-        self.player_group.draw(self.screen)
-        self.bullet_group.draw(self.screen)
-        self.alien_group.draw(self.screen)
-        self.spacerock_group.draw(self.screen)
-        self.enemy_bullets_group.draw(self.screen)
+        self.level.draw()
 
     def events_handle(self):
         for event in pygame.event.get():
@@ -103,7 +76,7 @@ class Game:
             if self.in_menu:
                 self.main_menu()
             else:
-                self.endgame()
+                self.level.next_level()
                 self.update()
                 self.draw()
 
