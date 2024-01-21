@@ -21,6 +21,7 @@ class Level:
         self.spacerock = SpaceRocks()
         self.spacerock_group.add(self.spacerock)
         self.game._game_music()
+        self.font = MENU_FONT
 
     def next_level(self):
         if pygame.sprite.spritecollide(self.player, self.spacerock_group, dokill=True) or self.player.health == 0:
@@ -30,6 +31,7 @@ class Level:
         if self.alien.health == 0:
             self.alien.kill()
             self.game._stop_game_on_event("YOU WIN!")
+            self.lvl_number += 1
 
     def update(self):
         self.player_group.update()
@@ -44,3 +46,5 @@ class Level:
         self.alien_group.draw(self.game.screen)
         self.spacerock_group.draw(self.game.screen)
         self.enemy_bullets_group.draw(self.game.screen)
+        level_text = self.font.render(f"Level: {self.lvl_number}", True, WHITE)
+        self.game.screen.blit(level_text, (250, 550))
