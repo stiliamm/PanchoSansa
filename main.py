@@ -1,9 +1,6 @@
 import pygame
 import sys
 from settings import *
-from spaceship import Spaceship
-from aliens import Aliens
-from rocks import SpaceRocks
 from level import Level
 
 
