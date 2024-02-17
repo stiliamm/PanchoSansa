@@ -17,7 +17,8 @@ class Game:
         self._new_game()
 
     def _new_game(self):
-        self.level = Level(self)
+        self.current_lvl = 1
+        self.level = Level(self, self.current_lvl)
 
     def _game_music(self):
         self.game_music = GAME_SOUND
@@ -33,7 +34,11 @@ class Game:
                                      2, SCREEN_HEIGHT/2 - draw_text.get_height()/2))
         pygame.display.update()
         pygame.time.delay(5000)
-        self._new_game()
+        if text == "YOU WIN!":
+            self.current_lvl += 1
+            self.level = Level(self, self.current_lvl)
+        else:
+            self._new_game()
 
     def main_menu(self):
         self.screen.blit(self.background, (0, 0))

@@ -6,9 +6,9 @@ from settings import *
 
 
 class Level:
-    def __init__(self, game) -> None:
+    def __init__(self, game, lvl_number: int) -> None:
         self.game = game
-        self.lvl_number = 1
+        self.lvl_number = lvl_number
         self.player_group = pygame.sprite.GroupSingle()
         self.bullet_group = pygame.sprite.Group()
         self.alien_group = pygame.sprite.Group()
@@ -31,7 +31,6 @@ class Level:
         if self.alien.health == 0:
             self.alien.kill()
             self.game._stop_game_on_event("YOU WIN!")
-            self.lvl_number += 1
 
     def update(self):
         self.player_group.update()
